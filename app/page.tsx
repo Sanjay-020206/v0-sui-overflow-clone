@@ -285,7 +285,7 @@ export default function NutpamPage() {
         isDarkMode
           ? "bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900"
           : "bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50"
-      } relative overflow-hidden`}
+      } relative`}
     >
       <header
         className={`fixed top-0 left-0 right-0 z-50 ${
@@ -323,7 +323,7 @@ export default function NutpamPage() {
                   language === "ta"
                     ? "bg-purple-600 text-white"
                     : isDarkMode
-                      ? "border-gray-600 text-white hover:bg-gray-700"
+                      ? "border-gray-600 text-gray-400 hover:bg-gray-700 hover:text-white" // Changed from text-gray-300 to text-gray-400 for better visibility in dark theme
                       : "border-gray-300 text-gray-900 hover:bg-gray-50"
                 }`}
               >
@@ -358,9 +358,9 @@ export default function NutpamPage() {
         }}
       />
 
-      <div className="relative z-10 flex min-h-screen pt-20">
+      <div className="relative z-10 flex min-h-screen pt-20 pb-20">
         {/* Left Content */}
-        <div className="flex-1 flex flex-col justify-center px-8 lg:px-16 max-w-2xl">
+        <div className="flex-1 flex flex-col justify-start px-8 lg:px-16 max-w-2xl py-8">
           <div className="space-y-8">
             <div className={`transition-all duration-1000 ${isAnimating ? "scale-105" : ""}`}>
               <h1
@@ -399,7 +399,7 @@ export default function NutpamPage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                   <div className={`p-4 rounded-lg ${isDarkMode ? "bg-gray-700/50" : "bg-gray-50"}`}>
                     <div className={`font-semibold ${isDarkMode ? "text-purple-400" : "text-purple-600"} mb-1`}>
                       {content[language].location}
@@ -415,6 +415,32 @@ export default function NutpamPage() {
                       {content[language].participants}
                     </div>
                   </div>
+                </div>
+
+                <div className="flex gap-4 flex-wrap pt-4 border-t border-gray-200/20">
+                  <Button
+                    onClick={() => setShowRegistration(true)}
+                    className={`${
+                      isDarkMode ? "bg-purple-600 hover:bg-purple-700" : "bg-purple-600 hover:bg-purple-700"
+                    } text-white px-6 py-3 text-base font-medium rounded-lg transition-all duration-300 hover:scale-105 shadow-lg`}
+                  >
+                    {content[language].registerBtn}
+                  </Button>
+
+                  <Button
+                    onClick={() => setActiveSection("timeline")}
+                    variant="outline"
+                    className={`${
+                      isDarkMode
+                        ? "border-blue-500 text-blue-400 hover:bg-blue-600 hover:text-white"
+                        : "border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
+                    } px-6 py-3 text-base font-medium rounded-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 shadow-lg`}
+                  >
+                    {content[language].seeTimeline}
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Button>
                 </div>
               </div>
             )}
@@ -494,40 +520,42 @@ export default function NutpamPage() {
               </div>
             )}
 
-            <div className="flex gap-4 flex-wrap">
-              <Button
-                onClick={() => setShowRegistration(true)}
-                className={`${
-                  isDarkMode ? "bg-purple-600 hover:bg-purple-700" : "bg-purple-600 hover:bg-purple-700"
-                } text-white px-8 py-6 text-lg font-medium rounded-lg transition-all duration-300 hover:scale-105`}
-              >
-                {content[language].registerBtn}
-              </Button>
-
-              <Button
-                onClick={() => setActiveSection(activeSection === "timeline" ? "overview" : "timeline")}
-                variant="outline"
-                className={`${
-                  isDarkMode ? "bg-blue-600 hover:bg-blue-700" : "bg-gray-900 hover:bg-gray-800"
-                } text-white px-8 py-6 text-lg font-medium rounded-lg flex items-center gap-3 w-fit transition-all duration-300 hover:scale-105`}
-              >
-                {content[language].seeTimeline}
-                <div
-                  className={`w-6 h-6 ${
-                    isDarkMode ? "bg-blue-400" : "bg-blue-500"
-                  } rounded flex items-center justify-center`}
+            {activeSection !== "overview" && (
+              <div className="flex gap-4 flex-wrap">
+                <Button
+                  onClick={() => setShowRegistration(true)}
+                  className={`${
+                    isDarkMode ? "bg-purple-600 hover:bg-purple-700" : "bg-purple-600 hover:bg-purple-700"
+                  } text-white px-8 py-6 text-lg font-medium rounded-lg transition-all duration-300 hover:scale-105`}
                 >
-                  <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </div>
-              </Button>
-            </div>
+                  {content[language].registerBtn}
+                </Button>
+
+                <Button
+                  onClick={() => setActiveSection(activeSection === "timeline" ? "overview" : "timeline")}
+                  variant="outline"
+                  className={`${
+                    isDarkMode ? "bg-blue-600 hover:bg-blue-700" : "bg-gray-900 hover:bg-gray-800"
+                  } text-white px-8 py-6 text-lg font-medium rounded-lg flex items-center gap-3 w-fit transition-all duration-300 hover:scale-105`}
+                >
+                  {content[language].seeTimeline}
+                  <div
+                    className={`w-6 h-6 ${
+                      isDarkMode ? "bg-blue-400" : "bg-blue-500"
+                    } rounded flex items-center justify-center`}
+                  >
+                    <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </Button>
+              </div>
+            )}
           </div>
         </div>
 
         {/* Right 3D Keyboard Keys - Enhanced Design */}
-        <div className="flex-1 flex items-center justify-center relative min-h-screen">
+        <div className="flex-1 flex items-center justify-center relative">
           <div
             className="absolute inset-0 opacity-90"
             style={{
@@ -632,12 +660,13 @@ export default function NutpamPage() {
         </div>
       </div>
 
+      {/* Navigation */}
       <nav
-        className={`fixed bottom-0 left-0 right-0 ${
+        className={`fixed bottom-0 left-0 right-0 z-50 ${
           isDarkMode ? "bg-gray-900/90" : "bg-white/90"
-        } backdrop-blur-sm border-t ${isDarkMode ? "border-gray-700" : "border-gray-200"} z-40`}
+        } backdrop-blur-sm border-t ${isDarkMode ? "border-gray-700" : "border-gray-200"}`}
       >
-        <div className="flex items-center justify-center">
+        <div className="flex justify-center">
           {navigationSections.map((section) => (
             <button
               key={section.id}
@@ -658,454 +687,397 @@ export default function NutpamPage() {
         </div>
       </nav>
 
+      {/* Registration Modal */}
       {showRegistration && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div
-            className={`${isDarkMode ? "bg-gray-900/95" : "bg-white/95"} backdrop-blur-lg rounded-2xl p-8 max-w-2xl w-full shadow-2xl border ${
-              isDarkMode ? "border-purple-500/20" : "border-purple-200"
-            } relative overflow-hidden max-h-[90vh] overflow-y-auto`}
+            className={`${
+              isDarkMode ? "bg-gray-800" : "bg-white"
+            } rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto`}
           >
-            <div
-              className="absolute inset-0 opacity-5"
-              style={{
-                backgroundImage: `
-                  linear-gradient(to right, ${isDarkMode ? "#8b5cf6" : "#6366f1"} 1px, transparent 1px),
-                  linear-gradient(to bottom, ${isDarkMode ? "#8b5cf6" : "#6366f1"} 1px, transparent 1px)
-                `,
-                backgroundSize: "20px 20px",
-              }}
-            />
-
-            {submitSuccess ? (
-              <div className="text-center relative z-10">
-                <div className="text-6xl mb-4 animate-bounce">🎉</div>
-                <h3 className={`text-2xl font-bold mb-3 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-                  {language === "en" ? "Registration Successful!" : "பதிவு வெற்றிகரமாக முடிந்தது!"}
-                </h3>
-                <p className={`text-lg ${isDarkMode ? "text-purple-300" : "text-purple-600"}`}>
-                  {language === "en" ? "Welcome to NUTPAM 2025!" : "நுட்பம் 2025 க்கு வரவேற்கிறோம்!"}
-                </p>
-                <div
-                  className={`mt-4 p-4 rounded-lg ${isDarkMode ? "bg-purple-900/30" : "bg-purple-50"} border ${isDarkMode ? "border-purple-500/20" : "border-purple-200"}`}
+            <div className="p-8">
+              <div className="flex items-center justify-between mb-8">
+                <h2 className={`text-3xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+                  {language === "en" ? "Team Registration" : "குழு பதிவு"}
+                </h2>
+                <button
+                  onClick={() => setShowRegistration(false)}
+                  className={`p-2 rounded-lg ${
+                    isDarkMode ? "hover:bg-gray-700 text-gray-400" : "hover:bg-gray-100 text-gray-600"
+                  }`}
                 >
-                  <p className={`text-sm ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>
-                    {language === "en"
-                      ? "Check your email for confirmation details"
-                      : "உறுதிப்படுத்தல் விவரங்களுக்கு உங்கள் மின்னஞ்சலைச் சரிபார்க்கவும்"}
-                  </p>
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Stepper */}
+              <div className="mb-8">
+                <div className="flex items-center justify-center mb-4">
+                  {[1, 2, 3].map((step) => (
+                    <div key={step} className="flex items-center">
+                      <div
+                        className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${
+                          step <= registrationStep
+                            ? "bg-purple-600 text-white"
+                            : isDarkMode
+                              ? "bg-gray-700 text-gray-400"
+                              : "bg-gray-200 text-gray-500"
+                        }`}
+                      >
+                        {step < registrationStep ? "✓" : step}
+                      </div>
+                      {step < 3 && (
+                        <div
+                          className={`w-16 h-1 mx-2 transition-all duration-300 ${
+                            step < registrationStep ? "bg-purple-600" : isDarkMode ? "bg-gray-700" : "bg-gray-200"
+                          }`}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex justify-center space-x-8 text-sm">
+                  <span
+                    className={`${registrationStep === 1 ? (isDarkMode ? "text-purple-400" : "text-purple-600") : isDarkMode ? "text-gray-400" : "text-gray-500"}`}
+                  >
+                    {language === "en" ? "Team Info" : "குழு தகவல்"}
+                  </span>
+                  <span
+                    className={`${registrationStep === 2 ? (isDarkMode ? "text-purple-400" : "text-purple-600") : isDarkMode ? "text-gray-400" : "text-gray-500"}`}
+                  >
+                    {language === "en" ? "Problem & Members" : "பிரச்சனை & உறுப்பினர்கள்"}
+                  </span>
+                  <span
+                    className={`${registrationStep === 3 ? (isDarkMode ? "text-purple-400" : "text-purple-600") : isDarkMode ? "text-gray-400" : "text-gray-500"}`}
+                  >
+                    {language === "en" ? "Review" : "மதிப்பீடு"}
+                  </span>
                 </div>
               </div>
-            ) : (
-              <div className="relative z-10">
-                {/* Stepper Header */}
-                <div className="text-center mb-8">
-                  <h3
-                    className={`text-3xl font-bold mb-2 bg-gradient-to-r ${isDarkMode ? "from-purple-400 to-pink-400" : "from-purple-600 to-pink-600"} bg-clip-text text-transparent`}
-                  >
-                    {language === "en" ? "Team Registration" : "குழு பதிவு"}
-                  </h3>
 
-                  {/* Stepper */}
-                  <div className="flex items-center justify-center mt-6 mb-8">
-                    {[1, 2, 3].map((step) => (
-                      <div key={step} className="flex items-center">
-                        <div
-                          className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${
-                            step <= registrationStep
-                              ? "bg-purple-600 text-white"
-                              : isDarkMode
-                                ? "bg-gray-700 text-gray-400"
-                                : "bg-gray-200 text-gray-500"
-                          }`}
-                        >
-                          {step < registrationStep ? "✓" : step}
-                        </div>
-                        {step < 3 && (
-                          <div
-                            className={`w-16 h-1 mx-2 transition-all duration-300 ${
-                              step < registrationStep ? "bg-purple-600" : isDarkMode ? "bg-gray-700" : "bg-gray-200"
-                            }`}
-                          />
-                        )}
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="flex justify-center space-x-8 text-sm">
-                    <span
-                      className={`${registrationStep === 1 ? (isDarkMode ? "text-purple-400" : "text-purple-600") : isDarkMode ? "text-gray-400" : "text-gray-500"}`}
-                    >
-                      {language === "en" ? "Team Info" : "குழு தகவல்"}
-                    </span>
-                    <span
-                      className={`${registrationStep === 2 ? (isDarkMode ? "text-purple-400" : "text-purple-600") : isDarkMode ? "text-gray-400" : "text-gray-500"}`}
-                    >
-                      {language === "en" ? "Problem & Members" : "பிரச்சனை & உறுப்பினர்கள்"}
-                    </span>
-                    <span
-                      className={`${registrationStep === 3 ? (isDarkMode ? "text-purple-400" : "text-purple-600") : isDarkMode ? "text-gray-400" : "text-gray-500"}`}
-                    >
-                      {language === "en" ? "Review" : "மதிப்பீடு"}
-                    </span>
-                  </div>
-                </div>
-
-                <form onSubmit={handleRegistration} className="space-y-6">
-                  {/* Step 1: Team Information */}
-                  {registrationStep === 1 && (
-                    <div className="space-y-6">
+              <form onSubmit={handleRegistration}>
+                {/* Step 1: Team Information */}
+                {registrationStep === 1 && (
+                  <div className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label
-                          className={`block text-sm font-semibold mb-2 ${isDarkMode ? "text-purple-300" : "text-purple-700"}`}
+                          className={`block text-sm font-medium mb-2 ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}
                         >
-                          {language === "en" ? "Team Name" : "குழு பெயர்"} *
+                          {language === "en" ? "Team Name" : "குழு பெயர்"}
                         </label>
                         <input
                           type="text"
-                          required
                           value={registrationData.teamName}
                           onChange={(e) => setRegistrationData({ ...registrationData, teamName: e.target.value })}
-                          className={`w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 ${
+                          className={`w-full px-4 py-3 rounded-lg border ${
                             isDarkMode
-                              ? "bg-gray-800/50 border-gray-600 text-white focus:border-purple-400 focus:bg-gray-800"
-                              : "bg-white/80 border-gray-300 text-gray-900 focus:border-purple-500 focus:bg-white"
-                          } focus:ring-2 focus:ring-purple-500/20 focus:outline-none backdrop-blur-sm`}
-                          placeholder={language === "en" ? "Enter team name" : "குழு பெயரை உள்ளிடவும்"}
+                              ? "bg-gray-700 border-gray-600 text-white"
+                              : "bg-white border-gray-300 text-gray-900"
+                          } focus:ring-2 focus:ring-purple-500 focus:border-transparent`}
+                          required
                         />
                       </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label
-                            className={`block text-sm font-semibold mb-2 ${isDarkMode ? "text-purple-300" : "text-purple-700"}`}
-                          >
-                            {language === "en" ? "Team Leader Name" : "குழு தலைவர் பெயர்"} *
-                          </label>
-                          <input
-                            type="text"
-                            required
-                            value={registrationData.teamLeader}
-                            onChange={(e) => setRegistrationData({ ...registrationData, teamLeader: e.target.value })}
-                            className={`w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 ${
-                              isDarkMode
-                                ? "bg-gray-800/50 border-gray-600 text-white focus:border-purple-400 focus:bg-gray-800"
-                                : "bg-white/80 border-gray-300 text-gray-900 focus:border-purple-500 focus:bg-white"
-                            } focus:ring-2 focus:ring-purple-500/20 focus:outline-none backdrop-blur-sm`}
-                            placeholder={language === "en" ? "Leader's full name" : "தலைவரின் முழு பெயர்"}
-                          />
-                        </div>
-                        <div>
-                          <label
-                            className={`block text-sm font-semibold mb-2 ${isDarkMode ? "text-purple-300" : "text-purple-700"}`}
-                          >
-                            {language === "en" ? "Leader's Email" : "தலைவரின் மின்னஞ்சல்"} *
-                          </label>
-                          <input
-                            type="email"
-                            required
-                            value={registrationData.teamLeaderEmail}
-                            onChange={(e) =>
-                              setRegistrationData({ ...registrationData, teamLeaderEmail: e.target.value })
-                            }
-                            className={`w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 ${
-                              isDarkMode
-                                ? "bg-gray-800/50 border-gray-600 text-white focus:border-purple-400 focus:bg-gray-800"
-                                : "bg-white/80 border-gray-300 text-gray-900 focus:border-purple-500 focus:bg-white"
-                            } focus:ring-2 focus:ring-purple-500/20 focus:outline-none backdrop-blur-sm`}
-                            placeholder="leader@example.com"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label
-                            className={`block text-sm font-semibold mb-2 ${isDarkMode ? "text-purple-300" : "text-purple-700"}`}
-                          >
-                            {language === "en" ? "College/University" : "கல்லூரி/பல்கலைக்கழகம்"} *
-                          </label>
-                          <input
-                            type="text"
-                            required
-                            value={registrationData.college}
-                            onChange={(e) => setRegistrationData({ ...registrationData, college: e.target.value })}
-                            className={`w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 ${
-                              isDarkMode
-                                ? "bg-gray-800/50 border-gray-600 text-white focus:border-purple-400 focus:bg-gray-800"
-                                : "bg-white/80 border-gray-300 text-gray-900 focus:border-purple-500 focus:bg-white"
-                            } focus:ring-2 focus:ring-purple-500/20 focus:outline-none backdrop-blur-sm`}
-                            placeholder={language === "en" ? "Your institution name" : "உங்கள் நிறுவன பெயர்"}
-                          />
-                        </div>
-                        <div>
-                          <label
-                            className={`block text-sm font-semibold mb-2 ${isDarkMode ? "text-purple-300" : "text-purple-700"}`}
-                          >
-                            {language === "en" ? "Phone Number" : "தொலைபேசி எண்"} *
-                          </label>
-                          <input
-                            type="tel"
-                            required
-                            value={registrationData.phone}
-                            onChange={(e) => setRegistrationData({ ...registrationData, phone: e.target.value })}
-                            className={`w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 ${
-                              isDarkMode
-                                ? "bg-gray-800/50 border-gray-600 text-white focus:border-purple-400 focus:bg-gray-800"
-                                : "bg-white/80 border-gray-300 text-gray-900 focus:border-purple-500 focus:bg-white"
-                            } focus:ring-2 focus:ring-purple-500/20 focus:outline-none backdrop-blur-sm`}
-                            placeholder="+91 98765 43210"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Step 2: Problem Statement & Team Members */}
-                  {registrationStep === 2 && (
-                    <div className="space-y-6">
                       <div>
                         <label
-                          className={`block text-sm font-semibold mb-2 ${isDarkMode ? "text-purple-300" : "text-purple-700"}`}
+                          className={`block text-sm font-medium mb-2 ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}
                         >
-                          {language === "en" ? "Problem Statement" : "பிரச்சனை அறிக்கை"} *
+                          {language === "en" ? "Team Leader" : "குழு தலைவர்"}
                         </label>
-                        <select
-                          required
-                          value={registrationData.problemStatement}
-                          onChange={(e) =>
-                            setRegistrationData({ ...registrationData, problemStatement: e.target.value })
-                          }
-                          className={`w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 ${
+                        <input
+                          type="text"
+                          value={registrationData.teamLeader}
+                          onChange={(e) => setRegistrationData({ ...registrationData, teamLeader: e.target.value })}
+                          className={`w-full px-4 py-3 rounded-lg border ${
                             isDarkMode
-                              ? "bg-gray-800/50 border-gray-600 text-white focus:border-purple-400 focus:bg-gray-800"
-                              : "bg-white/80 border-gray-300 text-gray-900 focus:border-purple-500 focus:bg-white"
-                          } focus:ring-2 focus:ring-purple-500/20 focus:outline-none backdrop-blur-sm`}
-                        >
-                          <option value="">
-                            {language === "en" ? "Select a problem statement" : "பிரச்சனை அறிக்கையைத் தேர்ந்தெடுக்கவும்"}
-                          </option>
-                          {problemStatements[language].map((statement, index) => (
-                            <option key={index} value={statement}>
-                              {statement}
-                            </option>
-                          ))}
-                        </select>
+                              ? "bg-gray-700 border-gray-600 text-white"
+                              : "bg-white border-gray-300 text-gray-900"
+                          } focus:ring-2 focus:ring-purple-500 focus:border-transparent`}
+                          required
+                        />
                       </div>
+                    </div>
 
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <div className="flex items-center justify-between mb-4">
-                          <label
-                            className={`block text-sm font-semibold ${isDarkMode ? "text-purple-300" : "text-purple-700"}`}
+                        <label
+                          className={`block text-sm font-medium mb-2 ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}
+                        >
+                          {language === "en" ? "Leader Email" : "தலைவர் மின்னஞ்சல்"}
+                        </label>
+                        <input
+                          type="email"
+                          value={registrationData.teamLeaderEmail}
+                          onChange={(e) =>
+                            setRegistrationData({ ...registrationData, teamLeaderEmail: e.target.value })
+                          }
+                          className={`w-full px-4 py-3 rounded-lg border ${
+                            isDarkMode
+                              ? "bg-gray-700 border-gray-600 text-white"
+                              : "bg-white border-gray-300 text-gray-900"
+                          } focus:ring-2 focus:ring-purple-500 focus:border-transparent`}
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label
+                          className={`block text-sm font-medium mb-2 ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}
+                        >
+                          {language === "en" ? "Phone Number" : "தொலைபேசி எண்"}
+                        </label>
+                        <input
+                          type="tel"
+                          value={registrationData.phone}
+                          onChange={(e) => setRegistrationData({ ...registrationData, phone: e.target.value })}
+                          className={`w-full px-4 py-3 rounded-lg border ${
+                            isDarkMode
+                              ? "bg-gray-700 border-gray-600 text-white"
+                              : "bg-white border-gray-300 text-gray-900"
+                          } focus:ring-2 focus:ring-purple-500 focus:border-transparent`}
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label
+                        className={`block text-sm font-medium mb-2 ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}
+                      >
+                        {language === "en" ? "College/University" : "கல்லூரி/பல்கலைக்கழகம்"}
+                      </label>
+                      <input
+                        type="text"
+                        value={registrationData.college}
+                        onChange={(e) => setRegistrationData({ ...registrationData, college: e.target.value })}
+                        className={`w-full px-4 py-3 rounded-lg border ${
+                          isDarkMode
+                            ? "bg-gray-700 border-gray-600 text-white"
+                            : "bg-white border-gray-300 text-gray-900"
+                        } focus:ring-2 focus:ring-purple-500 focus:border-transparent`}
+                        required
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {/* Step 2: Problem Statement & Team Members */}
+                {registrationStep === 2 && (
+                  <div className="space-y-6">
+                    <div>
+                      <label
+                        className={`block text-sm font-medium mb-2 ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}
+                      >
+                        {language === "en" ? "Problem Statement" : "பிரச்சனை அறிக்கை"}
+                      </label>
+                      <select
+                        value={registrationData.problemStatement}
+                        onChange={(e) => setRegistrationData({ ...registrationData, problemStatement: e.target.value })}
+                        className={`w-full px-4 py-3 rounded-lg border ${
+                          isDarkMode
+                            ? "bg-gray-700 border-gray-600 text-white"
+                            : "bg-white border-gray-300 text-gray-900"
+                        } focus:ring-2 focus:ring-purple-500 focus:border-transparent`}
+                        required
+                      >
+                        <option value="">
+                          {language === "en" ? "Select a problem statement" : "பிரச்சனை அறிக்கையைத் தேர்ந்தெடுக்கவும்"}
+                        </option>
+                        {problemStatements[language].map((statement, index) => (
+                          <option key={index} value={statement}>
+                            {statement}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div>
+                      <div className="flex items-center justify-between mb-4">
+                        <label
+                          className={`block text-sm font-medium ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}
+                        >
+                          {language === "en" ? "Team Members (2-3 members)" : "குழு உறுப்பினர்கள் (2-3 உறுப்பினர்கள்)"}
+                        </label>
+                        {registrationData.teamMembers.length < 3 && (
+                          <button
+                            type="button"
+                            onClick={addTeamMember}
+                            className="text-purple-600 hover:text-purple-700 text-sm font-medium"
                           >
-                            {language === "en" ? "Team Members (2-3 members)" : "குழு உறுப்பினர்கள் (2-3 உறுப்பினர்கள்)"} *
-                          </label>
-                          {registrationData.teamMembers.length < 3 && (
-                            <Button
-                              type="button"
-                              onClick={addTeamMember}
-                              variant="outline"
-                              size="sm"
-                              className={`${
+                            + {language === "en" ? "Add Member" : "உறுப்பினரைச் சேர்க்கவும்"}
+                          </button>
+                        )}
+                      </div>
+
+                      <div className="space-y-4">
+                        {registrationData.teamMembers.map((member, index) => (
+                          <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 border rounded-lg">
+                            <input
+                              type="text"
+                              placeholder={language === "en" ? "Member Name" : "உறுப்பினர் பெயர்"}
+                              value={member.name}
+                              onChange={(e) => updateTeamMember(index, "name", e.target.value)}
+                              className={`px-3 py-2 rounded border ${
                                 isDarkMode
-                                  ? "border-purple-500 text-purple-400 hover:bg-purple-900/20"
-                                  : "border-purple-500 text-purple-600 hover:bg-purple-50"
+                                  ? "bg-gray-700 border-gray-600 text-white"
+                                  : "bg-white border-gray-300 text-gray-900"
                               }`}
-                            >
-                              + {language === "en" ? "Add Member" : "உறுப்பினர் சேர்க்க"}
-                            </Button>
-                          )}
+                              required
+                            />
+                            <input
+                              type="email"
+                              placeholder={language === "en" ? "Member Email" : "உறுப்பினர் மின்னஞ்சல்"}
+                              value={member.email}
+                              onChange={(e) => updateTeamMember(index, "email", e.target.value)}
+                              className={`px-3 py-2 rounded border ${
+                                isDarkMode
+                                  ? "bg-gray-700 border-gray-600 text-white"
+                                  : "bg-white border-gray-300 text-gray-900"
+                              }`}
+                              required
+                            />
+                            <div className="flex items-center gap-2">
+                              <span className={`text-sm ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
+                                {member.role}
+                              </span>
+                              {registrationData.teamMembers.length > 2 && (
+                                <button
+                                  type="button"
+                                  onClick={() => removeTeamMember(index)}
+                                  className="text-red-500 hover:text-red-700 text-sm"
+                                >
+                                  {language === "en" ? "Remove" : "அகற்று"}
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Step 3: Review */}
+                {registrationStep === 3 && (
+                  <div className="space-y-6">
+                    <h3 className={`text-xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+                      {language === "en" ? "Registration Summary" : "பதிவு சுருக்கம்"}
+                    </h3>
+
+                    <div className={`p-6 rounded-lg ${isDarkMode ? "bg-gray-700/50" : "bg-gray-50"}`}>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <h4 className={`font-semibold mb-2 ${isDarkMode ? "text-purple-400" : "text-purple-600"}`}>
+                            {language === "en" ? "Team Information" : "குழு தகவல்"}
+                          </h4>
+                          <p className={`${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
+                            <strong>{language === "en" ? "Team:" : "குழு:"}</strong> {registrationData.teamName}
+                          </p>
+                          <p className={`${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
+                            <strong>{language === "en" ? "Leader:" : "தலைவர்:"}</strong> {registrationData.teamLeader}
+                          </p>
+                          <p className={`${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
+                            <strong>{language === "en" ? "Email:" : "மின்னஞ்சல்:"}</strong>{" "}
+                            {registrationData.teamLeaderEmail}
+                          </p>
+                          <p className={`${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
+                            <strong>{language === "en" ? "College:" : "கல்லூரி:"}</strong> {registrationData.college}
+                          </p>
                         </div>
 
-                        <div className="space-y-4">
+                        <div>
+                          <h4 className={`font-semibold mb-2 ${isDarkMode ? "text-purple-400" : "text-purple-600"}`}>
+                            {language === "en" ? "Problem Statement" : "பிரச்சனை அறிக்கை"}
+                          </h4>
+                          <p className={`${isDarkMode ? "text-gray-300" : "text-gray-700"} text-sm`}>
+                            {registrationData.problemStatement}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="mt-6">
+                        <h4 className={`font-semibold mb-2 ${isDarkMode ? "text-purple-400" : "text-purple-600"}`}>
+                          {language === "en" ? "Team Members" : "குழு உறுப்பினர்கள்"}
+                        </h4>
+                        <div className="space-y-2">
                           {registrationData.teamMembers.map((member, index) => (
-                            <div
-                              key={index}
-                              className={`p-4 rounded-lg border ${isDarkMode ? "border-gray-600 bg-gray-800/30" : "border-gray-300 bg-gray-50"}`}
-                            >
-                              <div className="flex items-center justify-between mb-3">
-                                <h4 className={`font-medium ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-                                  {language === "en" ? `Member ${index + 1}` : `உறுப்பினர் ${index + 1}`}
-                                </h4>
-                                {registrationData.teamMembers.length > 2 && (
-                                  <Button
-                                    type="button"
-                                    onClick={() => removeTeamMember(index)}
-                                    variant="outline"
-                                    size="sm"
-                                    className="text-red-500 border-red-500 hover:bg-red-50"
-                                  >
-                                    {language === "en" ? "Remove" : "நீக்கு"}
-                                  </Button>
-                                )}
-                              </div>
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <input
-                                  type="text"
-                                  required
-                                  value={member.name}
-                                  onChange={(e) => updateTeamMember(index, "name", e.target.value)}
-                                  className={`px-3 py-2 rounded-lg border transition-all duration-200 ${
-                                    isDarkMode
-                                      ? "bg-gray-700/50 border-gray-600 text-white focus:border-purple-400"
-                                      : "bg-white border-gray-300 text-gray-900 focus:border-purple-500"
-                                  } focus:ring-1 focus:ring-purple-500/20 focus:outline-none`}
-                                  placeholder={language === "en" ? "Full name" : "முழு பெயர்"}
-                                />
-                                <input
-                                  type="email"
-                                  required
-                                  value={member.email}
-                                  onChange={(e) => updateTeamMember(index, "email", e.target.value)}
-                                  className={`px-3 py-2 rounded-lg border transition-all duration-200 ${
-                                    isDarkMode
-                                      ? "bg-gray-700/50 border-gray-600 text-white focus:border-purple-400"
-                                      : "bg-white border-gray-300 text-gray-900 focus:border-purple-500"
-                                  } focus:ring-1 focus:ring-purple-500/20 focus:outline-none`}
-                                  placeholder={language === "en" ? "Email address" : "மின்னஞ்சல் முகவரி"}
-                                />
-                              </div>
-                            </div>
+                            <p key={index} className={`${isDarkMode ? "text-gray-300" : "text-gray-700"} text-sm`}>
+                              {member.name} - {member.email}
+                            </p>
                           ))}
                         </div>
                       </div>
                     </div>
-                  )}
-
-                  {/* Step 3: Review */}
-                  {registrationStep === 3 && (
-                    <div className="space-y-6">
-                      <h4 className={`text-lg font-bold ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-                        {language === "en" ? "Review Your Registration" : "உங்கள் பதிவை மதிப்பீடு செய்யுங்கள்"}
-                      </h4>
-
-                      <div className={`p-6 rounded-lg ${isDarkMode ? "bg-gray-800/50" : "bg-gray-50"} space-y-4`}>
-                        <div>
-                          <span className={`font-semibold ${isDarkMode ? "text-purple-400" : "text-purple-600"}`}>
-                            {language === "en" ? "Team Name:" : "குழு பெயர்:"}
-                          </span>
-                          <span className={`ml-2 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-                            {registrationData.teamName}
-                          </span>
-                        </div>
-                        <div>
-                          <span className={`font-semibold ${isDarkMode ? "text-purple-400" : "text-purple-600"}`}>
-                            {language === "en" ? "Team Leader:" : "குழு தலைவர்:"}
-                          </span>
-                          <span className={`ml-2 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-                            {registrationData.teamLeader} ({registrationData.teamLeaderEmail})
-                          </span>
-                        </div>
-                        <div>
-                          <span className={`font-semibold ${isDarkMode ? "text-purple-400" : "text-purple-600"}`}>
-                            {language === "en" ? "College:" : "கல்லூரி:"}
-                          </span>
-                          <span className={`ml-2 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-                            {registrationData.college}
-                          </span>
-                        </div>
-                        <div>
-                          <span className={`font-semibold ${isDarkMode ? "text-purple-400" : "text-purple-600"}`}>
-                            {language === "en" ? "Problem Statement:" : "பிரச்சனை அறிக்கை:"}
-                          </span>
-                          <span className={`ml-2 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-                            {registrationData.problemStatement}
-                          </span>
-                        </div>
-                        <div>
-                          <span className={`font-semibold ${isDarkMode ? "text-purple-400" : "text-purple-600"}`}>
-                            {language === "en" ? "Team Members:" : "குழு உறுப்பினர்கள்:"}
-                          </span>
-                          <div className="mt-2 space-y-1">
-                            {registrationData.teamMembers.map((member, index) => (
-                              <div key={index} className={`text-sm ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
-                                {index + 1}. {member.name} ({member.email})
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Navigation Buttons */}
-                  <div className="flex gap-4 pt-6">
-                    {registrationStep > 1 && (
-                      <Button
-                        type="button"
-                        onClick={prevStep}
-                        variant="outline"
-                        className={`px-8 py-3 rounded-xl font-semibold transition-all duration-300 ${
-                          isDarkMode
-                            ? "border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-white"
-                            : "border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-gray-900"
-                        }`}
-                      >
-                        {language === "en" ? "Previous" : "முந்தைய"}
-                      </Button>
-                    )}
-
-                    {registrationStep < 3 ? (
-                      <Button
-                        type="button"
-                        onClick={nextStep}
-                        className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 rounded-xl transition-all duration-300 transform hover:scale-105"
-                      >
-                        {language === "en" ? "Next Step" : "அடுத்த படி"}
-                      </Button>
-                    ) : (
-                      <Button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className={`flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 rounded-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none ${
-                          isSubmitting ? "animate-pulse" : ""
-                        }`}
-                      >
-                        {isSubmitting ? (
-                          <div className="flex items-center gap-2">
-                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                            {language === "en" ? "Registering..." : "பதிவு செய்கிறது..."}
-                          </div>
-                        ) : language === "en" ? (
-                          "Register Team"
-                        ) : (
-                          "குழுவை பதிவு செய்க"
-                        )}
-                      </Button>
-                    )}
-
-                    <Button
-                      type="button"
-                      onClick={() => {
-                        setShowRegistration(false)
-                        setRegistrationStep(1)
-                      }}
-                      variant="outline"
-                      className={`px-8 py-3 rounded-xl font-semibold transition-all duration-300 ${
-                        isDarkMode
-                          ? "border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-white"
-                          : "border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-gray-900"
-                      }`}
-                    >
-                      {language === "en" ? "Cancel" : "ரத்து செய்க"}
-                    </Button>
                   </div>
-                </form>
-              </div>
-            )}
+                )}
+
+                {/* Navigation Buttons */}
+                <div className="flex justify-between mt-8">
+                  <Button
+                    type="button"
+                    onClick={prevStep}
+                    disabled={registrationStep === 1}
+                    variant="outline"
+                    className={`${
+                      registrationStep === 1
+                        ? "opacity-50 cursor-not-allowed"
+                        : isDarkMode
+                          ? "border-gray-600 text-gray-300 hover:bg-gray-700"
+                          : "border-gray-300 text-gray-700 hover:bg-gray-50"
+                    }`}
+                  >
+                    {language === "en" ? "Previous" : "முந்தைய"}
+                  </Button>
+
+                  {registrationStep < 3 ? (
+                    <Button type="button" onClick={nextStep} className="bg-purple-600 hover:bg-purple-700 text-white">
+                      {language === "en" ? "Next" : "அடுத்து"}
+                    </Button>
+                  ) : (
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="bg-purple-600 hover:bg-purple-700 text-white"
+                    >
+                      {isSubmitting
+                        ? language === "en"
+                          ? "Submitting..."
+                          : "சமர்ப்பிக்கிறது..."
+                        : language === "en"
+                          ? "Submit Registration"
+                          : "பதிவை சமர்ப்பிக்கவும்"}
+                    </Button>
+                  )}
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       )}
 
-      {hoveredKey && (
-        <div
-          className={`fixed top-24 right-4 ${
-            isDarkMode ? "bg-gray-800/90" : "bg-white/90"
-          } backdrop-blur-sm rounded-lg p-3 shadow-lg animate-in slide-in-from-top duration-200 border ${
-            isDarkMode ? "border-gray-700" : "border-gray-200"
-          }`}
-        >
-          <div className={`text-sm font-medium ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-            Key: {hoveredKey.split("-")[0]}
+      {/* Success Modal */}
+      {submitSuccess && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-60 flex items-center justify-center p-4">
+          <div
+            className={`${
+              isDarkMode ? "bg-gray-800" : "bg-white"
+            } rounded-2xl shadow-2xl p-8 max-w-md w-full text-center`}
+          >
+            <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h3 className={`text-2xl font-bold mb-2 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              {language === "en" ? "Registration Successful!" : "பதிவு வெற்றிகரமாக!"}
+            </h3>
+            <p className={`${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>
+              {language === "en"
+                ? "Your team has been successfully registered for NUTPAM 2025!"
+                : "உங்கள் குழு NUTPAM 2025 க்கு வெற்றிகரமாக பதிவு செய்யப்பட்டுள்ளது!"}
+            </p>
           </div>
         </div>
       )}
